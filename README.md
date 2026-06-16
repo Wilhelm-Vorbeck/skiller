@@ -57,35 +57,20 @@ cp -r skiller ~/.agent/skills/skiller
 
 如果你不想安装 Git 或克隆整个仓库，可以直接下载 Release 压缩包：
 
-1. 前往 [Releases 页面](https://github.com/Wilhelm-Vorbeck/skiller/releases)，下载最新版本的 `skiller.zip` 或 `skiller.rar`
-2. 解压并安装到对应平台的 Skill 目录：
+1. 前往 [Releases 页面](https://github.com/Wilhelm-Vorbeck/skiller/releases)，下载 `Skiller.v1.0.0.rar`
+2. 解压到对应平台的 Skill 目录：
 
 **Windows（PowerShell）：**
 ```powershell
-# 下载 skiller.rar 后，解压并复制到 TRAE 平台
 $target = "$env:USERPROFILE\.trae\skills\skiller"
 New-Item -ItemType Directory -Force -Path $target | Out-Null
-& 'C:\Program Files\7-Zip\7z.exe' x "$env:USERPROFILE\Downloads\skiller.rar" -o"$target" -y
-
-# 或下载 skiller.zip 后
-Expand-Archive -Path "$env:USERPROFILE\Downloads\skiller.zip" -DestinationPath "$env:TEMP\skiller_extract"
-# GitHub zip 通常有一层外层目录（如 skiller-v1.0.0），需要进入后复制
-$inner = Get-ChildItem "$env:TEMP\skiller_extract" -Directory | Select-Object -First 1
-Copy-Item -Recurse "$($inner.FullName)\*" "$env:USERPROFILE\.trae\skills\skiller"
+& 'C:\Program Files\7-Zip\7z.exe' x "$env:USERPROFILE\Downloads\Skiller.v1.0.0.rar" -o"$target" -y
 ```
 
 **macOS / Linux：**
 ```bash
-# 下载 skiller.rar 后（需安装 unrar）
 mkdir -p ~/.agent/skills/skiller
-unrar x ~/Downloads/skiller.rar ~/.agent/skills/skiller/
-
-# 或下载 skiller.zip 后
-# GitHub zip 通常有一层外层目录（如 skiller-v1.0.0），先解压再复制内容
-unzip ~/Downloads/skiller.zip -d /tmp/skiller_extract/
-SRC=$(ls -d /tmp/skiller_extract/*/ | head -1)
-mkdir -p ~/.agent/skills/skiller
-cp -r "$SRC"* ~/.agent/skills/skiller/
+unrar x ~/Downloads/Skiller.v1.0.0.rar ~/.agent/skills/skiller/
 ```
 
 > **提示**：目标路径请根据你使用的平台替换（参考[方式一](#方式一直接复制目录)中的平台路径表）。

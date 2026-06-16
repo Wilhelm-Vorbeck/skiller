@@ -66,6 +66,34 @@ git clone https://github.com/<your-username>/skiller.git
 cp -r skiller ~/.agent/skills/skiller
 ```
 
+### 方式四：通过 GitHub Release 压缩包安装
+
+如果你不想安装 Git 或克隆整个仓库，可以直接下载 Release 压缩包：
+
+1. 前往 [Releases 页面](https://github.com/<your-username>/skiller/releases)，下载最新版本的 `skiller.zip`（或 `skiller.rar`）
+2. 解压到临时目录
+3. 将解压后的 `skiller/` 目录复制到对应平台的 Skill 目录：
+
+**Windows（PowerShell）：**
+```powershell
+# 假设下载的压缩包在 Downloads 目录
+Expand-Archive -Path "$env:USERPROFILE\Downloads\skiller.zip" -DestinationPath "$env:TEMP\skiller"
+Copy-Item -Recurse "$env:TEMP\skiller\skiller" "$env:USERPROFILE\.trae\skills\skiller"
+```
+
+**macOS / Linux：**
+```bash
+# 下载 zip 包
+unzip ~/Downloads/skiller.zip -d /tmp/
+cp -r /tmp/skiller ~/.agent/skills/skiller
+
+# 或下载 rar 包（需安装 unrar）
+unrar x ~/Downloads/skiller.rar /tmp/
+cp -r /tmp/skiller ~/.agent/skills/skiller
+```
+
+> **提示**：目标路径请根据你使用的平台替换（参考[方式一](#方式一直接复制目录)中的平台路径表）。
+
 ## 使用方式
 
 安装后，在对话中说类似以下任一表达即自动触发：

@@ -1,0 +1,94 @@
+{
+  "skill_name": "skiller",
+  "evals": [
+    {
+      "id": 1,
+      "type": "standard",
+      "prompt": "帮我创建一个 Skill，用于把每次的会议录音转成结构化的会议纪要。我通常把录音文件拖进来，然后说'把这录音整理成纪要'。",
+      "expected_output": "引导用户完成场景澄清 → 值得做判断 → 类型选择 → description 编写 → SKILL.md 骨架搭建，最终输出结构完整的 SKILL.md 和 eval.json",
+      "assertions": [
+        { "id": "a1", "text": "先询问触发场景的具体说法（正例收集），而非直接生成" },
+        { "id": "a2", "text": "进行「值得做判断」评估（频率/稳定性/交付物/风险）" },
+        { "id": "a3", "text": "输出包含 description（场景+输入+输出，≤200字符）" },
+        { "id": "a4", "text": "输出的 SKILL.md 包含触发条件、不适用、工作流程、输出要求、停止条件" },
+        { "id": "a5", "text": "输出 evals/eval.json 含标准样本和边界样本" }
+      ]
+    },
+    {
+      "id": 2,
+      "type": "standard",
+      "prompt": "我每次写代码 PR 都要手动检查很多东西，能不能帮我写个 Skill 自动化这个过程？",
+      "expected_output": "引导确认频率和稳定性，确定类型（角色型），然后按流程生成 Skill。建议先跑 3-5 个 baseline case 再决定",
+      "assertions": [
+        { "id": "a1", "text": "确认这是反复出现的需求（频率满足）" },
+        { "id": "a2", "text": "询问具体的检查项（不能接受'检查代码质量'这种模糊描述）" },
+        { "id": "a3", "text": "建议先跑 baseline，不急着 Skill 化" },
+        { "id": "a4", "text": "输出的工作流步骤是具体动作，非原则性描述" }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "standard",
+      "prompt": "帮我看看我这个 Skill 写得怎么样，有没有问题。我有个飞书文档整理的 Skill，最近老是误触发，不该它管的事它也跳出来。",
+      "expected_output": "触发迭代维护流程：分析 description 是否过于宽泛，补反例和收紧 description，检查相邻 Skill 是否有路由冲突",
+      "assertions": [
+        { "id": "a1", "text": "触发维护/诊断流程而非新建流程" },
+        { "id": "a2", "text": "先分析 description 是否过宽" },
+        { "id": "a3", "text": "建议补反例收紧描述" },
+        { "id": "a4", "text": "建议检查相邻 Skill 的 description" }
+      ]
+    },
+    {
+      "id": 4,
+      "type": "standard",
+      "prompt": "我想把我的需求分析 Skill 改一下，最近用起来发现总是漏掉风险评估这一步。",
+      "expected_output": "触发迭代流程：确认遗漏是步骤问题，建议将风险评估写成必须动作或验收项，按 SkillOpt Edit 步骤只改 1-2 处",
+      "assertions": [
+        { "id": "a1", "text": "触发维护流程，不是说不适用" },
+        { "id": "a2", "text": "定位问题为步骤遗漏（Gotchas 飞轮）" },
+        { "id": "a3", "text": "建议写成必须动作而非原则性提醒" },
+        { "id": "a4", "text": "提醒每次只改 1-2 处，改完跑 eval" }
+      ]
+    },
+    {
+      "id": 5,
+      "type": "boundary",
+      "prompt": "我要一个万能助手 Skill，什么都能帮我做。",
+      "expected_output": "拒绝创建。解释万能 = 边界模糊 = Agent 自由发挥，引导用户缩窄到具体场景",
+      "assertions": [
+        { "id": "b1", "text": "不应该直接生成 Skill" },
+        { "id": "b2", "text": "解释为什么万能 Skill 不行（上下文税、路由污染）" },
+        { "id": "b3", "text": "引导用户选一个具体小场景先试" }
+      ]
+    },
+    {
+      "id": 6,
+      "type": "boundary",
+      "prompt": "Skill 是什么？怎么用？",
+      "expected_output": "直接解释概念，不加载完整 Skill 流程",
+      "assertions": [
+        { "id": "b1", "text": "不触发完整的 Skill 创建流程" },
+        { "id": "b2", "text": "简要解释概念即可" }
+      ]
+    },
+    {
+      "id": 7,
+      "type": "anti",
+      "prompt": "帮我搜一下有没有现成的飞书文档整理 Skill，我想直接安装。",
+      "expected_output": "不加载此 Skill。引导至 skills.sh 或对应平台的 Skill 搜索方式",
+      "assertions": [
+        { "id": "c1", "text": "没有执行此 Skill 的工作流" },
+        { "id": "c2", "text": "引导至 skills.sh 或平台搜索" }
+      ]
+    },
+    {
+      "id": 8,
+      "type": "anti",
+      "prompt": "帮我把这份飞书草稿转换成知识库文章，要求结构化、保留来源链接。",
+      "expected_output": "不加载此 Skill。这是飞书文档整理任务，应触发文档整理类 Skill",
+      "assertions": [
+        { "id": "c1", "text": "不触发 skiller 的创建/维护流程" }
+      ]
+    }
+  ]
+}
